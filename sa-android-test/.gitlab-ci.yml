@@ -1,0 +1,70 @@
+variables:
+  GRADLE_OPTS: "-Dorg.gradle.daemon=false" # 禁用 gradle 守护进程
+  branch: $branch
+
+stages:
+  - checkBranch
+  - copyBuildInstall
+  - startAPP
+
+before_script:
+  - chmod +x ./gradlew
+
+checkBranch:
+  stage: checkBranch
+  script:
+    - echo $branch
+    - cd /Users/iosci/sa-sdk-android
+    - git pull
+    - git checkout $branch
+  timeout: 1h
+  tags:
+    - android_device
+
+copyBuildInstall:
+  stage: copyBuildInstall
+  script:
+    - cd /Users/iosci/builds/8ygoo8ZL/0/sensors-analytics/sdk/sa-android-test/
+    - rm -r SensorsAnalyticsSDK
+    - rm -r module_advert
+    - rm -r module_core
+    - rm -r module_visual
+    - rm -r module_autoTrack
+    - rm -r module_encrypt
+    - rm -r module_push
+    - rm -r module_exposure
+    - rm -r module_common
+    - rm -r module_webview
+    - rm -r script_config
+    - rm -r settings.gradle
+    - cd /Users/iosci/sa-sdk-android/
+    - cp -r SensorsAnalyticsSDK /Users/iosci/builds/8ygoo8ZL/0/sensors-analytics/sdk/sa-android-test/
+    - cp -r module_advert /Users/iosci/builds/8ygoo8ZL/0/sensors-analytics/sdk/sa-android-test/
+    - cp -r module_core /Users/iosci/builds/8ygoo8ZL/0/sensors-analytics/sdk/sa-android-test/
+    - cp -r module_visual /Users/iosci/builds/8ygoo8ZL/0/sensors-analytics/sdk/sa-android-test/
+    - cp -r module_autoTrack /Users/iosci/builds/8ygoo8ZL/0/sensors-analytics/sdk/sa-android-test/
+    - cp -r module_encrypt /Users/iosci/builds/8ygoo8ZL/0/sensors-analytics/sdk/sa-android-test/
+    - cp -r module_push /Users/iosci/builds/8ygoo8ZL/0/sensors-analytics/sdk/sa-android-test/
+    - cp -r module_exposure /Users/iosci/builds/8ygoo8ZL/0/sensors-analytics/sdk/sa-android-test/
+    - cp -r module_common /Users/iosci/builds/8ygoo8ZL/0/sensors-analytics/sdk/sa-android-test/
+    - cp -r module_webview /Users/iosci/builds/8ygoo8ZL/0/sensors-analytics/sdk/sa-android-test/
+    - cp -r script_config /Users/iosci/builds/8ygoo8ZL/0/sensors-analytics/sdk/sa-android-test/
+    - cp -r settings.gradle /Users/iosci/builds/8ygoo8ZL/0/sensors-analytics/sdk/sa-android-test/
+    - cd /Users/iosci/builds/8ygoo8ZL/0/sensors-analytics/sdk/sa-android-test/
+    - ./gradlew clean
+    - ./gradlew assembleDebug
+    - cd /Users/iosci/builds/8ygoo8ZL/0/sensors-analytics/sdk/sa-android-test/demo/build/outputs/apk/debug/
+    - adb uninstall com.sensorsdata.automation
+    - adb install -g demo-debug.apk
+  timeout: 1h
+  tags:
+    - android_device
+
+startAPP:
+  stage: startAPP
+  script:
+    - echo $branch
+    - adb shell am start -n com.sensorsdata.automation/.activity.MainActivity -e branchName $branch
+  timeout: 1h
+  tags:
+    - android_device

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title> Web SDK demo</title>
+	<script>
+		(function(para) {
+			var p = para.sdk_url, n = para.name, w = window, d = document, s = 'script', x = null, y = null;
+			if (typeof (w['sensorsDataAnalytic201505']) !== 'undefined') {
+				return false;
+			}
+			w['sensorsDataAnalytic201505'] = n;
+			w[n] = w[n] || function (a) { return function () { (w[n]._q = w[n]._q || []).push([a, arguments]); } };
+			var ifs = ['track', 'quick', 'register', 'registerPage', 'registerOnce', 'trackSignup', 'trackAbtest', 'setProfile', 'setOnceProfile', 'appendProfile', 'incrementProfile', 'deleteProfile', 'unsetProfile', 'identify', 'login', 'logout', 'trackLink', 'clearAllRegister', 'getAppStatus'];
+			for (var i = 0; i < ifs.length; i++) {
+				w[n][ifs[i]] = w[n].call(null, ifs[i]);
+			}
+			if (!w[n]._t) {
+				x = d.createElement(s), y = d.getElementsByTagName(s)[0];
+				x.async = 1;
+				x.src = p;
+				x.setAttribute('charset', 'UTF-8');
+				w[n].para = para;
+				y.parentNode.insertBefore(x, y);
+			}
+		})({
+			sdk_url: 'https://static.sensorsdata.cn/sdk/1.23.3/sensorsdata.min.js',
+			//本地引用js文件
+			//sdk_url: './sensorsdata.full.js',
+			//heatmap_url: 'https://cdn.jsdelivr.net/npm/sa-sdk-javascript@1.14.9/heatmap.min.js',
+			name: 'sensors',
+			use_client_time: true,
+			show_log:true,
+			//配置打通 App 与 H5 的参数
+      		use_app_track: true,
+      		//设置自定义登录 ID 标识
+      		//login_id_key: 'ddd' ,
+      		//app_js_bridge:true ,
+      		//app_js_bridge:{
+      			//white_list:['https://newsdktest.datasink.sensorsdata.cn/sa?project=liuweiqiang&token=5a394d2405c147ca']
+      			//is_send:true
+      		//},
+			//server_url: 'https://newsdktest.datasink.sensorsdata.cn/sa?project=liuweiqiang&token=5a394d2405c147ca',
+			server_url: 'http://10.120.111.143:8106/sa?project=default',
+			heatmap: {}
+		});
+		sensors.quick('autoTrack');
+	</script>
+
+</head>
+
+<body  onload="checkState()" >
+	<p>测试</p>
+	<a href="#/miao?utm_source=gzgzgz">锚点</a>
+	<br>
+	<div id="testgz" style="display:inline-block;height:200px;width:200px;background-color:aquamarine;">
+		<a href="https://www.baidu.com">baidu</a>
+	</div>
+	<br>
+	<a href="javascript:;" id="123" data='test'> 点击按钮触发</a>
+	<a href="javascript:;" name='testdisplay' style="display:inline-block;width:20px;height:20px;background-color:red">
+		<i style="display:none"></i>
+	</a>
+	<br>
+	<input type="checkbox" value='test' name='gz' checked='checked' /> 测试的checkbox点击
+	<br>
+	<button type="button" id="testClick" onclick="sensors.track('android_start',{'test':'111','proportion':'80%'})">测试点击</button>
+	<br>
+	<br>
+	<button type="button" id="btn1" name="btn1">登录</button>
+	<br>
+	<br>
+	<button type="button" id="btn2" name="btn2">注销</button>
+	<br>
+	<br>
+	<button type="button" id="btn3" name="btn3" >绑定</button>
+	<br>
+	<br>
+	<button type="button" id="btn4" name="btn4">解绑</button>
+	<br>
+	<br>
+	<button type="button" id="btn5" name="btn5" >profile_x</button>
+	<br>
+	<br>
+	<button type="button" id="btn6" name="btn6" >identify</button>
+	<br>
+	<br>
+	<textarea >输入内容</textarea>
+	<br>
+	<br>
+
+	<script>
+	function checkState(){
+		console.log('html页面加载完成')
+		sensors.track('trackJS')
+		sensors.bind('jsBind','666')
+		sensors.unbind('jsBind','666')
+		sensors.login('jsID')
+		sensors.logout()
+		}
+	</script>
+
+</body>
+<script type="text/javascript">
+	document.getElementById("btn1").onclick = function(){
+			//sensors.logout('test123456')
+			sensors.login('js_loginId002')
+		}
+</script>
+
+<script type="text/javascript">
+	document.getElementById("btn2").onclick = function(){
+			//sensors.track('sf_registered')
+			//sensors.track('testTrack')
+			//sensors.login('test123456')
+			//var person= new Object;
+			sensors.track('sf_test',{'test':'111','proportion':'80%','ga':preson})
+			//sensors.logout()
+		}
+</script>
+
+<script type="text/javascript">
+	document.getElementById("btn3").onclick = function(){
+			//sensors.bind('js_bind','666')
+			sensors.bind('$identity_android_uuid','666')
+			sensors.bind('$identity_android_id','666')
+			sensors.bind('$identity_anonymous_id','666')
+			//sensors.bind('$login_id”','666')
+		}
+</script>
+
+<script type="text/javascript">
+	document.getElementById("btn4").onclick = function(){
+			sensors.unbind('js_bind','666')
+			sensors.unbind('$android_uuid','666')
+			sensors.unbind('$android_id','666')
+			sensors.unbind('$anonymous_id”','666')
+			sensors.unbind('$login_id”','666')
+		}
+</script>
+
+<script type="text/javascript">
+	document.getElementById("btn5").onclick = function(){
+			sensors.setProfile({'age':30})
+			sensors.setOnceProfile({'age':40})
+			sensors.appendProfile({catrgory: '玉米'})
+			sensors.incrementProfile({'navClick': 2})
+			sensors.deleteProfile()
+			sensors.unsetProfile('email')
+		}
+</script>
+
+<script type="text/javascript">
+	document.getElementById("btn6").onclick = function(){
+			sensors.identify('js_asyId')
+		}
+</script>
+
+
+</html>

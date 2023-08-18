@@ -1,0 +1,53 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+    repositories {
+        maven {
+            url 'https://maven.aliyun.com/repository/gradle-plugin'
+        }
+        mavenCentral()
+        google()
+        maven {
+            url 'https://maven.google.com'
+        }
+        maven{
+            url 'https://maven.aliyun.com/nexus/content/repositories/jcenter'
+        }
+        maven {
+            url 'https://maven.aliyun.com/repository/google'
+        }
+
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.0.2'
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+        //添加神策分析 android-gradle-plugin 依赖
+        classpath 'com.sensorsdata.analytics.android:android-gradle-plugin2:3.5.4'
+        //greendao 数据库插件
+        classpath 'org.greenrobot:greendao-gradle-plugin:3.3.0' // add plugin
+    }
+}
+
+allprojects {
+    repositories {
+        maven {
+            url 'https://maven.aliyun.com/repository/gradle-plugin'
+        }
+        mavenCentral()
+        google()
+        maven {
+            url 'https://maven.google.com'
+        }
+        maven{
+            url 'https://maven.aliyun.com/nexus/content/repositories/jcenter'
+        }
+        maven {
+            url 'https://maven.aliyun.com/repository/google'
+        }
+
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

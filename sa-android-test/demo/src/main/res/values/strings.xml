@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">autoTest</string>
+    <string-array name="list_test">
+        <item>apple</item>
+        <item>huawei</item>
+        <item>samsung</item>
+        <item>xiaomi</item>
+        <item>oppo</item>
+        <item>vivo</item>
+    </string-array>
+
+    <string-array name="spinner_test">
+        <item>Beijing</item>
+        <item>Shanghai</item>
+        <item>Shenzhen</item>
+        <item>Hefei</item>
+    </string-array>
+
+    <string-array name="page_sp">
+        <item>apple</item>
+        <item>huawei</item>
+        <item>xiaomi</item>
+        <item>oppo</item>
+    </string-array>
+
+    <string-array name="frg_sp">
+        <item>苹果</item>
+        <item>华为</item>
+        <item>小米</item>
+        <item>欧珀</item>
+    </string-array>
+
+</resources>
